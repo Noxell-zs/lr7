@@ -23,10 +23,10 @@ jobs:
         run: sudo apt-get install gcc-aarch64-linux-gnu
 
       - name: Compiling
-        run: aarch64-none-linux-gnu-as lr7.s -o lr7.o
+        run: aarch64-linux-gnu-as lr7.s -o lr7.o
 
       - name: Linking
-        run: aarch64-none-linux-gnu-ld lr7.o -o lr7
+        run: aarch64-linux-gnu-ld lr7.o -o lr7
 
       - name: Changing mode
         run: chmod -x lr7
