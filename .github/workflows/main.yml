@@ -1,0 +1,39 @@
+name: ARM lr7
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+  
+permissions:
+  contents: write
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set current date as env variable
+        run: echo "date_today=$(date +'%Y.%m.%d/%H.%M')" >> $GITHUB_ENV
+
+      - name: Set Up package
+        run: sudo apt-get install gcc-aarch64-linux-gnu
+
+      - name: Compiling
+        run: aarch64-none-linux-gnu-as lr7.s -o lr7.o
+
+      - name: Linking
+        run: aarch64-none-linux-gnu-ld lr7.o -o lr7
+
+      - name: Changing mode
+        run: chmod -x lr7
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: lr7
+          name: ARM lr7 - ${{ env.date_today }}
+          tag_name: d/${{ env.date_today }}
